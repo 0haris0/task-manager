@@ -14,22 +14,48 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid())
-  email    String  @unique
+  id       String    @id @default(uuid())
+  email    String    @unique
   password String
-  role     String  @default("user")
+  role     String    @default("user")
   tasks    Task[]
+  Comment  Comment[]
+  activityLogs ActivityLog[]
 }
 
 model Task {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   title       String
   description String?
-  status      String   @default("pending")
-  priority    String   @default("medium")
+  status      String    @default("pending")
+  priority    String    @default("medium")
   dueDate     DateTime
-  createdBy   User     @relation(fields: [userId], references: [id])
+  category    String?
+  createdBy   User      @relation(fields: [userId], references: [id])
   userId      String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  Comment     Comment[]
+  activityLogs ActivityLog[]
+}
+
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId    String
+  author    User     @relation(fields: [userId], references: [id])
+  userId    String
+}
+
+model ActivityLog {
+  id        String   @id @default(uuid())
+  action    String   // "created", "updated", "deleted"
+  timestamp DateTime @default(now())
+  task      Task     @relation(fields: [taskId], references: [id])
+  taskId    String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
 }
