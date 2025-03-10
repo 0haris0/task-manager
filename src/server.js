@@ -5,11 +5,13 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
 import authRoutes from "./routes/authRoutes.js";
-import taskRoutes from './routes/taskRoutes.js';
-import adminRoutes from './routes/adminRoutes.js';
-import commentRoutes from './routes/commentRoutes.js';
-import activityRoutes from './routes/activityRoutes.js';
-import setupSwagger from './swaggerConfig.js';
+import taskRoutes from "./routes/taskRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
+import commentRoutes from "./routes/commentRoutes.js";
+import activityRoutes from "./routes/activityRoutes.js";
+import setupSwagger from "./swaggerConfig.js";
+
+const dev = node.process.env.NODE_ENV !== "production";
 
 dotenv.config();
 const app = express();
@@ -30,7 +32,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/activity", activityRoutes);
 
-
-
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+export default app;

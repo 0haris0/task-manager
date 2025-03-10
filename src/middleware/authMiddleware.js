@@ -1,34 +1,28 @@
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
 dotenv.config();
 
-const authMiddleware  = (req, res, next) =>
-  {
-  const token = req.headers.authorization?.split(' ')[1];
+const authMiddleware = (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
-    return res.status(401).json({error: 'Unauthorized'});
+    return res.status(401).json({ error: "Unauthorized" });
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user      = decoded;
+    req.user = decoded;
     next();
   } catch (error) {
-    return res.status(401).json({error: 'Invalid token'});
+    return res.status(401).json({ error: "Invalid token" });
   }
-  };
-const adminMiddleware = (req, res, next) =>
-  {
-  if (req.user.role !== 'admin') {
-    return res.status(403).json({error: 'Access denied. Admins only.'});
+};
+const adminMiddleware = (req, res, next) => {
+  if (req.user.role !== "admin") {
+    return res.status(403).json({ error: "Access denied. Admins only." });
   }
   next();
-  };
-
-export {
-  authMiddleware,
-  adminMiddleware,
 };
+
+export { authMiddleware, adminMiddleware };

@@ -12,6 +12,7 @@ export default function ProtectedLayout({ children }) {
 
     if (!token) {
       router.push("/login"); // Redirect to login if no token
+      setLoading(false);
     } else {
       setLoading(false);
     }

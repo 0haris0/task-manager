@@ -36,7 +36,8 @@ model Task {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   Comment     Comment[]
-  activityLogs ActivityLog[]
+  ActivityLog ActivityLog[]
+
 }
 
 
@@ -46,7 +47,7 @@ model Comment {
   createdAt DateTime @default(now())
   task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
   taskId    String
-  author    User     @relation(fields: [userId], references: [id])
+  author    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 }
 
@@ -54,8 +55,8 @@ model ActivityLog {
   id        String   @id @default(uuid())
   action    String   // "created", "updated", "deleted"
   timestamp DateTime @default(now())
-  task      Task     @relation(fields: [taskId], references: [id])
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
   taskId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
 }
