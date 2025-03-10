@@ -11,8 +11,6 @@ import commentRoutes from "./routes/commentRoutes.js";
 import activityRoutes from "./routes/activityRoutes.js";
 import setupSwagger from "./swaggerConfig.js";
 
-const dev = node.process.env.NODE_ENV !== "production";
-
 dotenv.config();
 const app = express();
 const prisma = new PrismaClient();
