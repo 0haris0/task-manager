@@ -11,17 +11,15 @@ export default function Login() {
 
   const router = useRouter();
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      router.push("/dashboard");
+    }
+  }, [router]);
+
   const handleLogin = async (e) => {
-    e.preventDefault();
-    setError("");
-
-    useEffect(() => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        router.push("/dashboard");
-      }
-    }, [token]);
-
     try {
       const { data } = await axios.post(
         "http://localhost:5000/api/auth/login",
