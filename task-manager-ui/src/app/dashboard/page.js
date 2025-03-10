@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ProtectedLayout from "@/components/protectedLayout";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
   const [tasks, setTasks] = useState([]);
@@ -11,6 +12,8 @@ export default function Dashboard() {
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("");
   const [priority, setPriority] = useState("");
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -67,7 +70,18 @@ export default function Dashboard() {
   return (
     <ProtectedLayout>
       <div className="bg-white p-6 rounded-lg shadow-md w-full">
-        <h2 className="text-2xl font-bold mb-4 ag-body">Dashboard</h2>
+        <div className={"flex justify-between"}>
+          <h2 className="w-1/2 text-2xl font-bold mb-4 ag-body">Dashboard</h2>
+          <button
+            className="bg-blue-500 p-2 rounded text-white w-1/6 align-right m-5"
+            onClick={() => {
+              localStorage.removeItem("token");
+              router.push("/login");
+            }}
+          >
+            Log Out
+          </button>
+        </div>
         <hr className={"p-6"} />
         <form
           onSubmit={handleCreateTask}
